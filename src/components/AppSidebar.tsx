@@ -10,7 +10,9 @@ import {
   Settings, 
   Activity,
   Shield,
-  Globe
+  Globe,
+  UserCheck,
+  Calendar
 } from "lucide-react"
 import { NavLink, useLocation } from "react-router-dom"
 
@@ -32,6 +34,9 @@ const mainItems = [
   { title: "Chat Demo", url: "/chat", icon: MessageSquare },
   { title: "Dashboard", url: "/dashboard", icon: BarChart3 },
   { title: "Outbreak Alerts", url: "/alerts", icon: AlertTriangle },
+  { title: "Features", url: "/features", icon: Shield },
+  { title: "ASHA Workers", url: "/asha-workers", icon: UserCheck },
+  { title: "Vaccination", url: "/vaccination", icon: Calendar },
   { title: "Disease Awareness", url: "/awareness", icon: Heart },
 ]
 
