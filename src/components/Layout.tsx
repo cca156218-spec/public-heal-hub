@@ -1,14 +1,20 @@
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/AppSidebar"
-import { Bell, User, Globe } from "lucide-react"
+import { Bell, User, Globe, LogOut } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
+import { useAuth } from "@/components/AuthProvider"
 
 interface LayoutProps {
   children: React.ReactNode
 }
 
 export function Layout({ children }: LayoutProps) {
+  const { user, signOut } = useAuth()
+
+  const handleSignOut = async () => {
+    await signOut()
+  }
   return (
     <SidebarProvider>
       <div className="min-h-screen flex w-full bg-gradient-dashboard">
@@ -30,6 +36,10 @@ export function Layout({ children }: LayoutProps) {
             </div>
             
             <div className="flex items-center gap-3">
+              <div className="text-sm text-muted-foreground hidden md:block">
+                {user?.email}
+              </div>
+              
               <Button variant="ghost" size="icon" className="relative">
                 <Bell className="h-4 w-4" />
                 <Badge 
@@ -44,8 +54,14 @@ export function Layout({ children }: LayoutProps) {
                 <Globe className="h-4 w-4" />
               </Button>
               
-              <Button variant="ghost" size="icon">
-                <User className="h-4 w-4" />
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                onClick={handleSignOut}
+                className="gap-2"
+              >
+                <LogOut className="h-4 w-4" />
+                <span className="hidden md:inline">Sign Out</span>
               </Button>
             </div>
           </header>

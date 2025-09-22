@@ -14,7 +14,387 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      asha_workers: {
+        Row: {
+          active: boolean | null
+          availability_status: string | null
+          block: string | null
+          created_at: string
+          district: string
+          id: string
+          languages: string[] | null
+          name: string
+          phone_number: string
+          rating: number | null
+          specializations: string[] | null
+          total_consultations: number | null
+          updated_at: string
+          user_id: string
+          village: string | null
+          worker_id: string
+        }
+        Insert: {
+          active?: boolean | null
+          availability_status?: string | null
+          block?: string | null
+          created_at?: string
+          district: string
+          id?: string
+          languages?: string[] | null
+          name: string
+          phone_number: string
+          rating?: number | null
+          specializations?: string[] | null
+          total_consultations?: number | null
+          updated_at?: string
+          user_id: string
+          village?: string | null
+          worker_id: string
+        }
+        Update: {
+          active?: boolean | null
+          availability_status?: string | null
+          block?: string | null
+          created_at?: string
+          district?: string
+          id?: string
+          languages?: string[] | null
+          name?: string
+          phone_number?: string
+          rating?: number | null
+          specializations?: string[] | null
+          total_consultations?: number | null
+          updated_at?: string
+          user_id?: string
+          village?: string | null
+          worker_id?: string
+        }
+        Relationships: []
+      }
+      chat_conversations: {
+        Row: {
+          created_at: string
+          escalated_to: string | null
+          escalation_reason: string | null
+          id: string
+          language: string | null
+          platform: string | null
+          session_id: string
+          status: string | null
+          updated_at: string
+          user_id: string
+          user_location: string | null
+        }
+        Insert: {
+          created_at?: string
+          escalated_to?: string | null
+          escalation_reason?: string | null
+          id?: string
+          language?: string | null
+          platform?: string | null
+          session_id: string
+          status?: string | null
+          updated_at?: string
+          user_id: string
+          user_location?: string | null
+        }
+        Update: {
+          created_at?: string
+          escalated_to?: string | null
+          escalation_reason?: string | null
+          id?: string
+          language?: string | null
+          platform?: string | null
+          session_id?: string
+          status?: string | null
+          updated_at?: string
+          user_id?: string
+          user_location?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "chat_conversations_escalated_to_fkey"
+            columns: ["escalated_to"]
+            isOneToOne: false
+            referencedRelation: "asha_workers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      chat_messages: {
+        Row: {
+          confidence_score: number | null
+          content: string
+          conversation_id: string
+          created_at: string
+          id: string
+          language: string | null
+          medical_category: string | null
+          message_type: string
+          requires_escalation: boolean | null
+          sentiment: string | null
+        }
+        Insert: {
+          confidence_score?: number | null
+          content: string
+          conversation_id: string
+          created_at?: string
+          id?: string
+          language?: string | null
+          medical_category?: string | null
+          message_type: string
+          requires_escalation?: boolean | null
+          sentiment?: string | null
+        }
+        Update: {
+          confidence_score?: number | null
+          content?: string
+          conversation_id?: string
+          created_at?: string
+          id?: string
+          language?: string | null
+          medical_category?: string | null
+          message_type?: string
+          requires_escalation?: boolean | null
+          sentiment?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "chat_messages_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "chat_conversations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      health_analytics: {
+        Row: {
+          created_at: string
+          id: string
+          location: string | null
+          metric_type: string
+          metric_value: Json
+          recorded_date: string
+          time_period: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          location?: string | null
+          metric_type: string
+          metric_value: Json
+          recorded_date?: string
+          time_period: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          location?: string | null
+          metric_type?: string
+          metric_value?: Json
+          recorded_date?: string
+          time_period?: string
+        }
+        Relationships: []
+      }
+      health_queries: {
+        Row: {
+          accuracy_verified: boolean | null
+          ai_response: string | null
+          conversation_id: string | null
+          created_at: string
+          id: string
+          location: string | null
+          query_category: string
+          query_text: string
+          symptoms: string[] | null
+          urgency_level: string | null
+          user_feedback: number | null
+          user_id: string | null
+        }
+        Insert: {
+          accuracy_verified?: boolean | null
+          ai_response?: string | null
+          conversation_id?: string | null
+          created_at?: string
+          id?: string
+          location?: string | null
+          query_category: string
+          query_text: string
+          symptoms?: string[] | null
+          urgency_level?: string | null
+          user_feedback?: number | null
+          user_id?: string | null
+        }
+        Update: {
+          accuracy_verified?: boolean | null
+          ai_response?: string | null
+          conversation_id?: string | null
+          created_at?: string
+          id?: string
+          location?: string | null
+          query_category?: string
+          query_text?: string
+          symptoms?: string[] | null
+          urgency_level?: string | null
+          user_feedback?: number | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "health_queries_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "chat_conversations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      outbreak_alerts: {
+        Row: {
+          active: boolean | null
+          affected_areas: string[]
+          alert_type: string
+          cases_reported: number | null
+          created_at: string
+          deaths_reported: number | null
+          description: string
+          disease_name: string
+          expires_at: string | null
+          id: string
+          prevention_measures: string | null
+          severity_level: number | null
+          source_authority: string | null
+          symptoms: string[] | null
+        }
+        Insert: {
+          active?: boolean | null
+          affected_areas: string[]
+          alert_type: string
+          cases_reported?: number | null
+          created_at?: string
+          deaths_reported?: number | null
+          description: string
+          disease_name: string
+          expires_at?: string | null
+          id?: string
+          prevention_measures?: string | null
+          severity_level?: number | null
+          source_authority?: string | null
+          symptoms?: string[] | null
+        }
+        Update: {
+          active?: boolean | null
+          affected_areas?: string[]
+          alert_type?: string
+          cases_reported?: number | null
+          created_at?: string
+          deaths_reported?: number | null
+          description?: string
+          disease_name?: string
+          expires_at?: string | null
+          id?: string
+          prevention_measures?: string | null
+          severity_level?: number | null
+          source_authority?: string | null
+          symptoms?: string[] | null
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          age: number | null
+          created_at: string
+          emergency_contact: string | null
+          gender: string | null
+          id: string
+          location: string | null
+          medical_conditions: string[] | null
+          phone_number: string | null
+          preferred_language: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          age?: number | null
+          created_at?: string
+          emergency_contact?: string | null
+          gender?: string | null
+          id?: string
+          location?: string | null
+          medical_conditions?: string[] | null
+          phone_number?: string | null
+          preferred_language?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          age?: number | null
+          created_at?: string
+          emergency_contact?: string | null
+          gender?: string | null
+          id?: string
+          location?: string | null
+          medical_conditions?: string[] | null
+          phone_number?: string | null
+          preferred_language?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      vaccination_schedules: {
+        Row: {
+          administered_date: string | null
+          batch_number: string | null
+          child_dob: string | null
+          child_name: string | null
+          created_at: string
+          due_date: string
+          id: string
+          location: string | null
+          notes: string | null
+          reminder_sent: boolean | null
+          status: string | null
+          updated_at: string
+          user_id: string | null
+          vaccine_name: string
+        }
+        Insert: {
+          administered_date?: string | null
+          batch_number?: string | null
+          child_dob?: string | null
+          child_name?: string | null
+          created_at?: string
+          due_date: string
+          id?: string
+          location?: string | null
+          notes?: string | null
+          reminder_sent?: boolean | null
+          status?: string | null
+          updated_at?: string
+          user_id?: string | null
+          vaccine_name: string
+        }
+        Update: {
+          administered_date?: string | null
+          batch_number?: string | null
+          child_dob?: string | null
+          child_name?: string | null
+          created_at?: string
+          due_date?: string
+          id?: string
+          location?: string | null
+          notes?: string | null
+          reminder_sent?: boolean | null
+          status?: string | null
+          updated_at?: string
+          user_id?: string | null
+          vaccine_name?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
